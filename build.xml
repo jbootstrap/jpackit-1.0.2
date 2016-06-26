@@ -1,0 +1,406 @@
+<!--
+  Copyright 2004-2005 Ignat Aleksandrov, Kamil Shamgunov
+
+  Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+
+<project default="compile" name="jpackit" basedir=".">
+    <!-- The name of this component (packaged with all dependecies) -->
+    <property name="component.name" value="jpackit"/>
+    <!-- The name of this component (plain, without dependencies) -->
+    <property name="component.internal.name" value="jpackit-internal"/>
+    <!-- The name of this component working as a command line utility -->
+    <property name="component.commandline.name" value="jpackit-cmd"/>
+
+    <!-- The primary package name of this component -->
+    <property name="component.package" value="net.sf.jpackit"/>
+
+    <!-- The short title of this component -->
+    <property name="component.title" value="JPackIt"/>
+
+    <!-- The current version number of this component -->
+    <property name="component.version" value="1.0.2"/>
+
+    <!-- Main class of Swing application -->
+    <property name="component.mainclass" value="${component.package}.ui.swing.Main"/>
+    <!-- Main class of command-line application -->
+    <property name="component.commandline.mainclass" value="${component.package}.ui.text.TextJarPackageBuilder"/>
+
+    <!-- The base directory for source files -->
+    <property name="source.home" value="src"/>
+
+    <!-- The base directory for component configuration files -->
+    <property name="source.conf" value="${source.home}/config"/>
+
+    <!-- The base directory for component sources -->
+    <property name="source.java" value="${source.home}/java"/>
+
+    <!-- The base directory for unit test sources -->
+    <property name="source.test" value="${source.home}/test"/>
+
+    <!-- The directories for compilation targets -->
+    <property name="build.home" value="build"/>
+    <property name="build.classes" value="${build.home}/classes"/>
+    <property name="build.tests" value="${build.home}/tests"/>
+    <property name="build.docs" value="${build.home}/docs/apidocs"/>
+
+    <!-- The name/location of the jar file to build -->
+    <property name="jar.name" value="${component.name}-${component.version}.jar"/>
+    <property name="jar.internal.name" value="${component.internal.name}-${component.version}.jar"/>
+    <property name="jar.commandline.name" value="${component.commandline.name}-${component.version}.jar"/>
+    <property name="build.jar.name" value="${build.home}/${jar.name}"/>
+    <property name="build.jar.internal.name" value="${build.home}/${jar.internal.name}"/>
+    <property name="build.jar.commandline.name" value="${build.home}/${jar.commandline.name}"/>
+    <property name="build.jar.test.incl.name" value="${build.home}/test-internal.jar"/>
+    <property name="jar.test.name" value="${component.name}-test.jar"/>
+    <property name="build.jar.test.name" value="${build.home}/${jar.test.name}"/>
+
+    <!-- The name/location of the zip files to build -->
+    <property name="build.dist.bin" value="${build.home}/bin"/>
+    <property name="build.dist.bin.work" value="${build.dist.bin}/${component.name}-${component.version}"/>
+    <property name="build.dist.src" value="${build.home}/src"/>
+    <property name="build.dist.src.work" value="${build.dist.src}/${component.name}-${component.version}"/>
+    <property name="dist" value="dist"/>
+    <property name="dist.bin.tar.name" value="${dist}/${component.name}-${component.version}.tar"/>
+    <property name="dist.bin.gz.name" value="${dist}/${component.name}-${component.version}.tar.gz"/>
+    <property name="dist.bin.zip.name" value="${dist}/${component.name}-${component.version}.zip"/>
+    <property name="dist.src.tar.name" value="${dist}/${component.name}-${component.version}-src.tar"/>
+    <property name="dist.src.gz.name" value="${dist}/${component.name}-${component.version}-src.tar.gz"/>
+    <property name="dist.src.zip.name" value="${dist}/${component.name}-${component.version}-src.zip"/>
+
+    <!-- The name/location of configuration files -->
+    <property name="conf.jpackit.settings" value="${source.conf}/jpackit.pbc"/>
+    <property name="conf.jpackit.test.settings" value="${source.conf}/jar_test.pbc"/>
+
+    <!-- ========== External Dependencies ===================================== -->
+
+    <!-- The directory containing libraries -->
+    <property name="lib.home" value="lib/"/>
+
+    <!-- The pathname of the "junit.jar" JAR file -->
+    <property name="junit.jar" value="${lib.home}/junit-3.8.1.jar"/>
+
+    <!-- The pathname of the "asm.jar" JAR file -->
+    <property name="asm.jar" value="${lib.home}/asm-1.5.3.jar"/>
+    
+    <!-- The pathname of the "asm-tree.jar" JAR file -->
+    <property name="asm-tree.jar" value="${lib.home}/asm-tree-1.5.3.jar "/>
+    
+    <!-- The pathname of the "asm-tree.jar" JAR file -->
+    <property name="looks.jar" value="${lib.home}/looks-1.3b1.jar"/>
+    
+
+    <!-- ========== Settings ================================================== -->
+
+    <!-- Javac -->
+    <property name="compile.debug" value="true"/>
+    <property name="compile.deprecation" value="true"/>
+    <property name="compile.optimize" value="true"/>
+
+    <!-- Javadoc -->
+    <property name="javadoc.access" value="protected"/>
+    <property name="javadoc.links" value="http://java.sun.com/j2se/1.3/docs/api/"/>
+
+    <!-- JUnit -->
+    <property name="test.failonerror" value="true"/>
+
+    <!-- ========== Paths== ================================================== -->
+
+    <path id="compile.tests.classpath">
+        <pathelement location="${build.classes}"/>
+        <pathelement location="${junit.jar}"/>
+    </path>
+
+    <path id="compile.classpath">
+        <pathelement location="${asm.jar}"/>
+        <pathelement location="${asm-tree.jar}"/>
+    </path>
+
+    <!-- ====================================================================== -->
+    <!-- ========== Executable Targets ======================================== -->
+    <!-- ====================================================================== -->
+
+    <target name="clean">
+        <delete dir="${build.home}"/>
+        <delete dir="${dist}"/>
+    </target>
+
+    <!-- ====================================================================== -->
+
+    <target name="compile" description="Compile main code">
+        <mkdir dir="${build.classes}"/>
+        <javac
+            srcdir="${source.java}"
+            destdir="${build.classes}"
+            classpathref="compile.classpath"
+            debug="${compile.debug}"
+            deprecation="${compile.deprecation}"
+            optimize="${compile.optimize}"
+            target="1.3"
+            source="1.3"
+            fork="true">
+            <include name="**/*.java"/>
+        </javac>
+    </target>
+
+    <!-- ====================================================================== -->
+
+    <target name="compile.tests" depends="compile"
+        description="Compile unit test cases">
+        <mkdir dir="${build.tests}"/>
+        <javac
+            srcdir="${source.test}"
+            destdir="${build.tests}"
+            classpathref="compile.tests.classpath"
+            debug="true"
+            deprecation="false"
+            optimize="false"
+            target="1.3"
+            source="1.3"
+            fork="true">
+            <include name="**/*.java"/>
+        </javac>
+    </target>
+
+    <!-- ====================================================================== -->
+
+    <target name="commandline.jar" depends="compile"
+        description="Create command-line application jar">
+
+        <copy todir="${build.classes}">
+            <fileset dir="${source.java}" includes="**/*.properties"/>
+        </copy>
+
+        <mkdir dir="${build.classes}/META-INF"/>
+
+        <copy todir="${build.classes}/META-INF">
+            <fileset dir="${source.conf}/doc" includes="*.html"/>
+        </copy>
+
+        <jar jarfile="${build.jar.internal.name}" basedir="${build.classes}" index="true">
+            <manifest>
+                <attribute name="Manifest-Version" value="1.0"/>
+                <attribute name="Package" value="${component.package}"/>
+                <attribute name="Extension-Name" value="${component.name}"/>
+                <attribute name="Specification-Version" value="${component.version}"/>
+                <attribute name="Specification-Title" value="${component.title}"/>
+                <attribute name="Implementation-Version" value="${component.version}"/>
+                <attribute name="Main-Class" value="${component.mainclass}"/>
+            </manifest>
+        </jar>
+
+        <jar jarfile="${build.jar.commandline.name}" basedir="${build.classes}" index="true">
+            <manifest>
+                <attribute name="Manifest-Version" value="1.0"/>
+                <attribute name="Main-Class" value="${component.commandline.mainclass}"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="jar" depends="commandline.jar"
+        description="Create jar">
+
+        <java jar="${build.jar.commandline.name}" fork="true">
+            <arg value="${conf.jpackit.settings}"/>
+            <arg file="."/>
+            <arg value="${jar.name}"/>
+            <arg value="${build.jar.internal.name}"/>
+        </java>
+        <delete file="${build.jar.internal.name}"/>
+    </target>
+
+    <!-- ====================================================================== -->
+
+    <target name="run" depends="jar">
+        <java jar="${build.jar.name}" failonerror="true" fork="true"/>
+    </target>
+
+    <!-- ====================================================================== -->
+    <!-- ========== Tests ===================================================== -->
+    <!-- ====================================================================== -->
+
+    <!-- ====================================================================== -->
+
+    <target name="test" depends="test.jar"/>
+
+    <target name="test.jar" depends="compile.tests, commandline.jar">
+        <jar jarfile="${build.jar.test.incl.name}" basedir="${build.tests}" index="true">
+            <manifest>
+                <attribute name="Manifest-Version" value="1.0"/>
+            </manifest>
+        </jar>
+
+        <java jar="${build.jar.commandline.name}" fork="true">
+            <arg value="${conf.jpackit.test.settings}"/>
+            <arg file="."/>
+            <arg value="${jar.test.name}"/>
+            <arg value="${build.jar.test.incl.name}"/>
+        </java>
+
+        <delete file="${build.jar.test.incl.name}"/>
+        <java jar="${build.jar.test.name}" fork="true"/>
+    </target>
+
+    <target name="javadoc">
+        <delete dir="${build.docs}"/>
+        <mkdir dir="${build.docs}"/>
+        <javadoc destdir="${build.docs}" classpathref="compile.classpath">
+            <fileset dir="${source.java}">
+                <include name="**/*.java"/>
+            </fileset>
+        </javadoc>
+    </target>
+
+    <!-- ====================================================================== -->
+    <!-- ========== Distributions ============================================= -->
+    <!-- ====================================================================== -->
+
+    <!-- ====================================================================== -->
+
+    <target name="dist" depends="jar,javadoc,dist.bin,dist.src"
+        description="Create distribution folders">
+    </target>
+
+    <target name="dist.bin">
+        <mkdir dir="${build.dist.bin.work}"/>
+        <copy todir="${build.dist.bin.work}">
+            <fileset dir=".">
+                <include name="LICENSE.txt"/>
+                <include name="README.txt"/>
+                <include name="CHANGES.txt"/>
+                <include name="3rdparty/"/>
+            </fileset>
+        </copy>
+        <copy todir="${build.dist.bin.work}">
+            <fileset dir="${build.home}">
+                <include name="*.jar"/>
+                <include name="docs/**"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="dist.src">
+        <mkdir dir="${build.dist.src.work}"/>
+        <copy todir="${build.dist.src.work}">
+            <fileset dir=".">
+                <include name="LICENSE.txt"/>
+                <include name="README.txt"/>
+                <include name="CHANGES.txt"/>
+                <include name="3rdparty/"/>
+                <include name="build.xml"/>
+            </fileset>
+        </copy>
+        <copy todir="${build.dist.src.work}">
+            <fileset dir=".">
+                <include name="${source.home}/**"/>
+                <include name="${lib.home}/**"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <!-- ====================================================================== -->
+
+    <target name="zip" depends="dist, zip.bin, zip.src"
+        description="Create zipped distribution">
+    </target>
+
+    <target name="zip.bin">
+        <mkdir dir="${dist}"/>
+
+        <tar longfile="gnu" tarfile="${dist.bin.tar.name}">
+            <tarfileset dir="${build.dist.bin}"/>
+        </tar>
+        <gzip zipfile="${dist.bin.gz.name}" src="${dist.bin.tar.name}"/>
+        <delete file="${dist.bin.tar.name}"/>
+
+        <zip zipfile="${dist.bin.zip.name}">
+            <zipfileset dir="${build.dist.bin}"/>
+        </zip>
+
+        <checksum file="${dist.bin.zip.name}"/>
+        <checksum file="${dist.bin.gz.name}"/>
+    </target>
+
+    <target name="zip.src">
+        <mkdir dir="${dist}"/>
+        <tar longfile="gnu" tarfile="${dist.src.tar.name}">
+            <tarfileset dir="${build.dist.src}"/>
+        </tar>
+        <gzip zipfile="${dist.src.gz.name}" src="${dist.src.tar.name}"/>
+        <delete file="${dist.src.tar.name}"/>
+
+        <zip zipfile="${dist.src.zip.name}">
+            <zipfileset dir="${build.dist.src}"/>
+        </zip>
+
+        <checksum file="${dist.src.gz.name}"/>
+        <checksum file="${dist.src.zip.name}"/>
+    </target>
+
+</project>
+
+<!--
+  $Log: build.xml,v $
+  Revision 1.20  2005/03/18 06:53:27  kamil_sham
+  Changed to version 1.0.2, added 3rdpary into binary/source distribution
+
+  Revision 1.19  2005/02/27 10:47:02  kamil_sham
+  Fixed bug that prevented distribution of plafs in JPackIt pakckage, added jgoodies looks.
+
+  Revision 1.18  2005/02/23 10:21:02  kamil_sham
+  Changed to version 1.0.1, fixed bug with empty spaces in path, reported by Riyad Kalla.
+
+  Revision 1.17  2005/02/22 13:30:34  ignath
+  no message
+
+  Revision 1.16  2005/02/11 09:33:47  kamil_sham
+  Added help and about dialogs. Fixed several bugs.
+
+  Revision 1.15  2005/01/26 08:52:21  ignath
+  no message
+
+  Revision 1.14  2005/01/25 11:05:48  kamil_sham
+  *** empty log message ***
+
+  Revision 1.13  2005/01/24 19:03:07  kamil_sham
+  Added kunststoff look and feel, removed resizing from all windows.
+
+  Revision 1.12  2005/01/24 18:32:28  kamil_sham
+  fixed build.xml to leave command line client in build directory. Fixed class file comments, added javadocs
+
+  Revision 1.11  2005/01/24 13:23:37  ignath
+  Refactored code
+
+  Revision 1.10  2005/01/24 07:10:08  kamil_sham
+  Added support for default ars and predefined args, fixed NPE in Validator, changed build.xml to build jar_test package using commandline jar builder
+
+  Revision 1.9  2005/01/21 15:44:40  kamil_sham
+  Set debug level in build.xml to 'true', fixed bug in BuildConfigurationValidation's checkMainClass method, removed addition of all net.sf.jpackit.utills.* classes into final package
+
+  Revision 1.8  2005/01/21 15:21:19  kamil_sham
+  Fixed several bugs in TesJarPackageBuilder, added command line arguments that helps to build packages from ant. Fixed build.xml to build swing ui into jpackit package.
+
+  Revision 1.7  2005/01/19 10:52:22  kamil_sham
+  *** empty log message ***
+
+  Revision 1.6  2005/01/19 08:28:39  ignath
+  Added test compile target to build.xml
+
+  Revision 1.5  2005/01/17 08:20:17  ignath
+  build 0.3
+
+  Revision 1.4  2005/01/14 08:40:45  ignath
+  Added cvs log generation to end of the file
+
+ -->

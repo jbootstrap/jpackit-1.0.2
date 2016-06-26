@@ -1,0 +1,91 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+	<title>JPackIt 1.0.2 Help</title>
+</head>
+
+<body>
+<h1>JpackIt 1.0.2 Help</h1>
+
+<hr>
+
+<a name="introduction"></a>
+<h2>1. Introduction</h2>
+
+<p>JPackIt is a tool which allows distributing of java application with all necessary resources as one executable package. Currently we support only jar archives as a destination format, but in future versions we are planning to introduce packaging into single class file as well. With help of JPackIt you will be able to include in final package all libraries that are necessary to run your application. Also any additional resources such as images, properties files, and encryption keys can be added to the package.</p> 
+<p>Destination package is executable and can be launched using usual “<tt>java –jar</tt>” command. JPackIt Application can be run in command-line mode or in graphic mode.</p>
+
+<hr>
+
+<a name="basic_concepts"></a> 
+<h2>2. Basic concepts</h2>
+
+<dl>
+	<dt><i>Base directory</i></dt>
+	<dd>Directory which is root folder for all other directories and files involved in packaging process. All other paths should be given as relative paths to the base dir.</dd>
+
+	<dt><i>Main jar</i></dt>
+	<dd>Java archive that contains main application code. Main jar should include at least one executable class (with “<i>main</i>” method)</dd>
+	
+	<dt><i>Dependant jars</i></dt>
+	<dd>All additional libraries and other resources that are necessary to run the application</dd>
+	
+	<dt><i>Main class</i></dt>
+	<dd>Executable class from main jar that will be run when final package is executed</dd>
+
+	<dt><i>Package location</i></dt>
+	<dd>Directory where destination package will be created</dd>
+
+	<dt><i>Package name</i></dt>
+	<dd>Name of destination package</dd>
+
+	<dt><i>Package type</i></dt>
+	<dd>Format of package. Currently only “<i>jar</i>” value is supported</dd>
+	
+	<dt><i>Predefined args</i></dt>
+	<dd>Mandatory arguments that will be passed to the main class when final package is executed. All user-defined arguments will be added AFTER predefined arguments</dd>
+	
+	<dt><i>Default args</i></dt>
+	<dd>Arguments that will be added after predefined arguments (if any). User of your application can redefine them by manually setting other values during launching of final package (for example “<tt>java –jar app.jar –arg1 –arg2</tt>).</dd>
+</dl>
+
+<p><b>Important Notice.</b> In order to use JPackIt you must first compress all application classes and other resources into jar file. That jar file is referred as “<i>main jar</i>”.</p> 
+
+<hr>
+
+<a name="graphic_tool"></a>
+<h2>3. Graphic tool</h2>
+
+<p>To start JPackIt in graphic mode use “<tt>java –jar jpackit-1.0.2.jar</tt>”.</p>
+<p>In order to create new package you should specify base dir, main jar and main class, package name and location. You can save your package configuration in file or load previously stored configuration. To create package with parameters specified in form fields use “<i>Build</i>” -&gt; “<i>Build package</i>” menu item. Prior to building a package, system will check that all parameters are given, that they are correct and that package can be created. If verification fails you will see errors description in separate window. In this case fix errors and try to build package again. You can validate configuration manually by using “<i>Build</i>” -&gt; “<i>Validate</i>” menu.</p> 
+
+<hr>
+
+<a name="cl_tool"></a>
+<h2>4. Command-line tool</h2>
+
+<p>If you want to use JPackIt in silent mode with already created configuration file, you can use command-line version of it. Command-line version takes configuration file as a first argument. You can create configurations using graphic tool or manually with any text editor. Full syntax of JPackIt command-line tool is:</p>
+<p><tt>java –jar jpackit-cmd-1.0.2.jar &lt;config_file&gt; (&lt;base_dir&gt; &lt;package_name&gt; &lt;main_jar&gt;)</tt></p>
+<p>where arguments are:</p>
+
+<dl>
+
+<dt><i>config_file</i></dt>
+<dd>full path to configuration file</dd>
+
+<dt><i>base_dir</i></dt>
+<dd>base directory (optional)</dd>
+
+<dt><i>package_name</i></dt>
+<dd>package name (optional)</dd>
+
+<dt><i>main_jar</i></dt>
+<dd>main jar (optional)</dd>
+
+</dl>
+
+<hr>
+
+</body>
+</html>

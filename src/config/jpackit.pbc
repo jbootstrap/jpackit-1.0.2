@@ -1,0 +1,12 @@
+#Fri Jan 21 18:52:16 GMT+05:00 2005
+jpackit.buldType=Jar
+jpackit.encType=no
+jpackit.baseDir=/jpackit
+jpackit.defaultArgs=
+jpackit.dependantJars=lib/asm-1.5.3.jar, lib/asm-tree-1.5.3.jar, lib/looks-1.3b1.jar
+jpackit.mainJar=build/jpackit-0.3.jar
+jpackit.packageName=jpackit-1.0b
+jpackit.predefArgs=
+jpackit.hasherType=md5
+jpackit.mainClass=net.sf.jpackit.ui.swing.Main
+jpackit.packageLocation=build

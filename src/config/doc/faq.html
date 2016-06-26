@@ -1,0 +1,58 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+	<title>JPackIt FAQ</title>
+</head>
+
+<body>
+<h1>JPackIt FAQ</h1>
+
+<hr>
+
+<h2>What is JPackIt for?</h2>
+<p>JPackIt was developed to simplify application distribution by compressing all application dependencies (such as libraries) and application code itself into single executable package. User no longer needs to manually unzip your application or download any additional libraries - he can just download you application's jar and execute it (by double clicking on windows or using "<tt>java -jar &lt;jarname&gt;</tt>" in command line)</p>
+
+<hr>
+
+<h2>Why can't I just decompress all necessary libraries and put them along with my classes into single jar without JPackIt?</h2>
+<p>You can. But sometimes there are copyright restrictions, that forces you not to unjar the third-party library. Also two different dependency jars can contain file with the same name and same path (for example "<i>ReadMe.txt</i>" in the root of the package) and you need to resolve that conflict. JPackIt helps to solve all that problems.</p>
+
+<hr>
+
+<h2>Why does not JPackIt allow me to place my classes in root of final jar package as it is usually performed?</h2>
+<p>We made this limitation to unify access to all resources inside package created with JPackIt. Only jar archives can be included in final package and all other resources should be put inside those jars. By applying this restriction we avoid several error prone cases and make all JPackIt packages look similar.</p>
+
+<hr>
+
+<h2>Why "<i>Main-Class:</i>" attribute value in manifest of generated jar file points to some '<i>net.sf.jpackit.pkg.jar.Bootstrapper</i>' instead of my main class?</h2>
+<p>JVM specification does not directly support loading of jar files that are inside another jar files. Because of this restriction we had to create a bootstrapper. Bootstrapper is a class that is executed first and that loads all classes and resources from the internal jars and passes them to custom Classloader which knows how to handle them.</p>
+
+<hr>
+
+<h2>Does all jar files included in package created by JPackIt are loaded into memory when that package is running?</h2>
+<p>No, we does not allow JPackIt to waste your RAM :). All internal jars are unpacked into temporary folder and removed after application terminates.</p>
+
+<hr>
+
+<h2>Can I just load resources that are inside jar package created with JPackIt from another application?</h2>
+<p>No, it is not possible to simply include JPackIt jar into your classpath and use it resources from your application. If you really need it, you can use JPackIt loading framework to do so - it's opensource, do you remember? :)</p>
+
+<hr>
+
+<h2>Are there any alternatives to JpackIt?</h2>
+<p>Sure, as always there are a lot of alternatives and each of them has its own advantages/disadvantages. Take a look at the following projects:</p>
+<ul>
+  <li><a href="http://one-jar.sourceforge.net/">http://one-jar.sourceforge.net/</a></li>
+  <li><a href="http://jsmooth.sourceforge.net/">http://jsmooth.sourceforge.net/</a></li>
+  <li><a href="http://launch4j.sourceforge.net/">http://launch4j.sourceforge.net/</a></li>
+</ul>  
+<hr>  
+
+<h2>Why should I choose exactly JPackIt?</h2>
+<p>If you don't know why, you shouldn't. :). But at least you can try it.</p>
+
+<hr>
+
+</body>
+</html>

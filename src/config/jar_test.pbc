@@ -1,0 +1,12 @@
+#Mon Jan 24 11:52:18 GMT+05:00 2005
+jpackit.buldType=Jar
+jpackit.encType=no
+jpackit.baseDir=/jpackit
+jpackit.defaultArgs=
+jpackit.dependantJars=lib/junit-3.8.1.jar
+jpackit.mainJar=build/internal.jar
+jpackit.packageName=jar_test
+jpackit.predefArgs=
+jpackit.hasherType=md5
+jpackit.mainClass=net.sf.jpackit.pkg.classloader.JPackitClassLoaderTest
+jpackit.packageLocation=build

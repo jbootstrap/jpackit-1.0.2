@@ -1,0 +1,124 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+	<title>JPackIt Changes</title>
+</head>
+
+<body>
+
+<h1>JPackIt Changes</h1>
+
+<hr>
+
+<h3>Version 1.0.2</h3>
+
+<p><b>Bug fixes and improvements:</b></p>
+<ul>
+<li>Fixed bug with loading custom l&amp;f from jpackit package</li>
+<li>Added jgoodies l&amp;f</li>
+</ul>
+
+<hr>
+
+<h3>Version 1.0.1</h3>
+
+<p><b>Bug fixes and improvements:</b></p>
+<ul>
+<li>Fixed serious bug that prevented JPackIt package to run from path with empty spaces (thanks to Riyad Kalla)</li>
+</ul>
+
+<hr>
+
+<h3>Version 1.0</h3>
+
+<p><b>Bug fixes and improvements:</b></p>
+<ul>
+<li>Added warning dialog when trying to change base dir with main jar already defined on it.</li>
+<li>Added new validation rule: names of all jars (incl. main jar) should be different</li>
+<li>Added error handling to jar scanning (when searching main classes)</li>
+<li>Fixed error in validator that prevented package building on linux</li>
+<li>Centered MainFrame window</li>
+<li>Added key accelerations for "Validate", "Build Package", "Exit"</li>
+<li>Fixed bug with abnormal process termination</li>
+<li>Fixed several minor bugs</li>
+</ul>
+
+<hr>
+
+<h3>Version 1.0 beta</h3>
+
+<p><b>New Features:</b></p>
+<ul>
+<li>Added command line jar package builder</li>
+<li>Added sorting to jars  and main class chooser dialog</li>
+<li>Separated main jar from dependant jars</li>
+<li>Added main class selector dialog</li>
+<li>Made refactoring to separate notification framework</li>
+<li>Added new validation features</li>
+<li>Added junit tests for jar package</li>
+<li>Changed default build configuration serialization to java properties</li>
+<li>Added validation: main jar should not be included in list of dependand jars</li>
+</ul>
+
+<p><b>Bug fixes and improvements:</b></p>
+<ul>
+<li>Fixed bug with root directiory selection in base dir</li>
+<li>Fixed serious bug in classloader, that prevented access resources in external jars</li>
+<li>Removed cleanup of all paths in case of changing base dir</li>
+<li>Fixed many other small bugs</li>
+</ul>
+
+<hr>
+
+<h3>version 0.3</h3>
+
+<p><b>New Features:</b></p>
+<ul>
+<li>Added possibility to cancel package building process</li>
+</ul>
+
+<p><b>Bug fixes and improvements:</b></p>
+<ul>
+<li>Fixed bug with cancel in jars location chooser</li>
+<li>All exceptions during building process are now correctly handled and displayed to user as error messages</li>
+<li>Fixed major bug in jar validity checking routine</li>
+</ul>
+
+<hr>
+
+<h3>version 0.2</h3>
+
+<p><b>New Features:</b></p>
+<ul>
+<li>Added build configuration validation (accessible as a separate menu item under 'Build' menu):</li>
+	<ol type="a">
+		<li>all obligatory fields are checked for non-emptiness</li>
+		<li>all included jar files are checked whether they are valid java archives</li>
+		<li>class specified as main is checked (is it present and does it have 'main' method)</li>
+	</ol>
+<li>Build configuration validation is executed before 'save' and 'build' operations.</li>
+</ul>
+
+<p><b>Bug fixes and improvements:</b></p>
+<ul>
+<li>Temporary files are really removed after generated package has finished executing</li>
+<li>getResourceAsStream() in client application is now correctly handled</li>
+<li>It is possible to delete several jars in "Jars location" field now</li>
+</ul>
+
+<hr>
+
+<h3>version 0.1-alpha (initial public release)</h3>
+
+<p><b>New Features:</b></p>
+<ul>
+<li>Jar package building capability</li>
+<li>Jar package execution capability</li>
+<li>Swing based package building and configuration environment</li>
+</ul>
+
+<hr>
+
+</body>
+</html>

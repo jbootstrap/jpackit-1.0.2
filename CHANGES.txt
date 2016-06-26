@@ -1,0 +1,75 @@
+Version 1.0.2
+
+Bug fixes and improvements:
+- Fixed bug with loading custom l&f from jpackit package
+- Added jgoodies l&f 
+
+Version 1.0.1
+
+Bug fixes and improvements:
+- Fixed serious bug that prevented JPackIt package to run from path with empty spaces (thanks to Riyad Kalla)
+
+version 1.0
+
+Bug fixes and improvements:
+- Added warning dialog when trying to change base dir with main jar already defined on it.
+- Added new validation rule: names of all jars (incl. main jar) should be different
+- Added error handling to jar scanning (when searching main classes)
+- Fixed error in validator that prevented package building on linux
+- Centered MainFrame window
+- Added kay accelerations for "Validate", "Build Package", "Exit"
+- Fixed bug with abnormal process termination 
+
+version 1.0 beta
+
+New Features:
+- Added command line jar package builder
+- Added sorting to jars  and main class chooser dialog
+- Separated main jar from dependant jars
+- Added main class selector dialog
+- Made refactoring to separate notification framework 
+- Added new validation features
+- Added junit tests for jar package
+- Changed default build configuration serialization to java properties
+- Added validation: main jar should not be included in list of dependand jars
+
+Bug fixes and improvements:
+- Fixed bug with root directiory selection in base dir
+- Fixed serious bug in classloader, that prevented access resources in external jars
+- Removed cleanup of all paths in case of changing base dir
+- Fixed many other small bugs
+--------------------------------------------------------------------------------------
+
+version 0.3
+
+New Features:
+- Added possibility to cancel package building process
+
+Bug fixes and improvements:
+- Fixed bug with cancel in jars location chooser
+- All exceptions during building process are now correctly handled and displayed to user as error messages
+- Fixed major bug in jar validity checking routine
+--------------------------------------------------------------------------------------
+
+version 0.2
+
+New Features:
+- Added build configuration validation (accessible as a separate menu item under 'Build' menu):
+   a) all obligatory fields are checked for non-emptiness;
+   b) all included jar files are checked whether they are valid java archives
+   c) class specified as main is checked (is it present and does it have 'main' method)
+- Build configuration validation is executed before 'save' and 'build' operations.
+
+Bug fixes and improvements:
+- Temporary files are really removed after generated package has finished executing
+- getResourceAsStream() in client application is now correctly handled
+- It is possible to delete several jars in "Jars location" field now 
+
+--------------------------------------------------------------------------------------
+
+version 0.1-alpha (initial public release)
+
+New Features:
+- Jar package building capability
+- Jar package execution capability
+- Swing based package building and configuration environment
